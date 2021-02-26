@@ -47,30 +47,24 @@ public class MainWindow extends JFrame {
 
 		mnuAddRecord.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				InsertRecordGUI smg = new InsertRecordGUI();
-				smg.setVisible(true);
+				InsertRecordGUI irg = new InsertRecordGUI();
+				irg.setVisible(true);
 			}
 		});
 		
 		mnuSearchRecord.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// StudentSearchGUI studentSearch=new StudentSearchGUI();
-				// studentSearch.setVisible(true);
+				SearchRecordGUI searchRecord = new SearchRecordGUI();
+				searchRecord.setVisible(true);
 			}
 		});
 		
 		mnuGenerateReport.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// StudentMgmtGUI smg=new StudentMgmtGUI();
-				// smg.setVisible(true);
+				 GenerateReportGUI srg = new GenerateReportGUI();
+				 srg.setVisible(true);
 			}
 		});
-		
-		/*
-		 * mnuExit.addActionListener(new ActionListener() { public void
-		 * actionPerformed(ActionEvent e) { JOptionPane.showMessageDialog(null,
-		 * "This is SMS Application System"); System.exit(0); } });
-		 */
 
 	}
 }

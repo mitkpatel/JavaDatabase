@@ -51,8 +51,8 @@ public class HomePageGUI extends JFrame {
 
 		mnuAddRecord.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				InsertRecordGUI smg = new InsertRecordGUI();
-				smg.setVisible(true);
+				InsertRecordGUI irg = new InsertRecordGUI();
+				irg.setVisible(true);
 			}
 		});
 
@@ -67,7 +67,8 @@ public class HomePageGUI extends JFrame {
 
 		mnuSearchRecord.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				 SearchRecordGUI srg = new SearchRecordGUI();
+				 srg.setVisible(true);
 			}
 		});
 
@@ -76,8 +77,8 @@ public class HomePageGUI extends JFrame {
 
 		mnuGenerateReport.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//StudentSearchGUI smg = new StudentSearchGUI();
-				//smg.setVisible(true);
+				GenerateReportGUI grg = new GenerateReportGUI();
+				grg.setVisible(true);
 			}
 		});
 
