@@ -7,9 +7,9 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.awt.Color;
 
-public class HomePage extends JFrame {
+public class HomePageGUI extends JFrame {
 	
-	public HomePage() {
+	public HomePageGUI() {
 		this.initialize();
 	}
 
