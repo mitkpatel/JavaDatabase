@@ -1,4 +1,4 @@
-package assignment1;
+package presentation;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
@@ -51,8 +51,8 @@ public class HomePageGUI extends JFrame {
 
 		mnuAddRecord.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// Write your logic
-				//System.exit(0);
+				InsertRecordGUI smg = new InsertRecordGUI();
+				smg.setVisible(true);
 			}
 		});
 
@@ -67,9 +67,7 @@ public class HomePageGUI extends JFrame {
 
 		mnuSearchRecord.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// Write your logic
-				//StudentMgmtGUI smg = new StudentMgmtGUI();
-				//smg.setVisible(true);
+				
 			}
 		});
 
@@ -78,7 +76,6 @@ public class HomePageGUI extends JFrame {
 
 		mnuGenerateReport.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// Write your logic
 				//StudentSearchGUI smg = new StudentSearchGUI();
 				//smg.setVisible(true);
 			}

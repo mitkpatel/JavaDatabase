@@ -1,4 +1,4 @@
-package assignment1;
+package presentation;
 
 public class Assignment1App {
 

@@ -1,4 +1,4 @@
-package assignment1;
+package presentation;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -47,8 +47,8 @@ public class MainWindow extends JFrame {
 
 		mnuAddRecord.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// StudentMgmtGUI smg=new StudentMgmtGUI();
-				// smg.setVisible(true);
+				InsertRecordGUI smg = new InsertRecordGUI();
+				smg.setVisible(true);
 			}
 		});
 		
