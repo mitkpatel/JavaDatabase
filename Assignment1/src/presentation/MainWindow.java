@@ -39,7 +39,7 @@ public class MainWindow extends JFrame {
 		mnuSearchRecord = new JMenuItem("Search Record");
 		mnuManage.add(mnuSearchRecord);
 		mnuGenerateReport = new JMenuItem("Generate Report");
-		mnuFile.add(mnuGenerateReport);
+		mnuManage.add(mnuGenerateReport);
 		mnuHelp = new JMenu("Help");
 		mb.add(mnuHelp);
 		mnuExit = new JMenuItem("Exit");
