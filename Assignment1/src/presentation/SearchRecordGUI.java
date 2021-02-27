@@ -14,9 +14,11 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
 import javax.swing.ButtonGroup;
+import java.util.regex.Pattern;
 
 public class SearchRecordGUI extends JFrame {
 	private JTextField txtFindCity;
@@ -55,7 +57,7 @@ public class SearchRecordGUI extends JFrame {
 		getContentPane().add(txtFindDate);
 		
 		JButton btnFind = new JButton("Find");
-		btnFind.setBounds(188, 111, 89, 23);
+		btnFind.setBounds(121, 111, 89, 23);
 		getContentPane().add(btnFind);
 		
 		JTextArea txtAreaFindRecord = new JTextArea();
@@ -64,6 +66,20 @@ public class SearchRecordGUI extends JFrame {
 		
 		// User can only see data, can not edit the text area
 		txtAreaFindRecord.setEditable(false);
+		
+		JButton btnSearchAgain = new JButton("Search Again");
+		btnSearchAgain.setBounds(236, 111, 112, 23);
+		getContentPane().add(btnSearchAgain);
+		
+		btnSearchAgain.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				txtAreaFindRecord.setText("");
+				txtFindDate.setText("");
+				txtFindCity.setText("");
+				txtFindDate.setEditable(true);
+				txtFindCity.setEditable(true);
+			}
+		});
 		
 		btnFind.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -79,11 +95,14 @@ public class SearchRecordGUI extends JFrame {
 				}
 				
 				if (rdbtnCity.isSelected()) {
-					if (searchCity.isEmpty()) {
-						 JOptionPane.showMessageDialog(null, "Enter city name first!!!");
-					}
+					txtAreaFindRecord.setText("");
+					txtFindDate.setText("");
+					if(!(Pattern.matches("[a-zA-Z]+",searchCity)) || (searchCity.isEmpty())) {
+						 JOptionPane.showMessageDialog(null, "Enter valid city name first."); 
+					 }
 					else {
 						if (searchCity.matches("^[a-zA-Z]*$")) {
+							txtFindCity.setEditable(false);
 							for(Object s: Userdata) {
 								String str = (String)s;
 								String[] splitArray = str.split(",");
@@ -95,10 +114,13 @@ public class SearchRecordGUI extends JFrame {
 					}
 						
 				} else if (rdbtnDate.isSelected()) {
+					txtAreaFindRecord.setText("");
+					txtFindCity.setText("");
 					if (searchDate.isEmpty()) {
 						 JOptionPane.showMessageDialog(null, "Enter date first!");
 					} 
 					else if (searchDate.matches("^([0-9]{1,2}/){2}[0-9]{2,4}$")) {
+						txtFindDate.setEditable(false);;
 						for(Object s: Userdata) {
 							String str = (String)s;
 							String[] splitArray = str.split(",");

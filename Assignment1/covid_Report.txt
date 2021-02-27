@@ -3,3 +3,5 @@ Date: 11/01/2021, City: toronto, Cases: 10, Deaths: 1, Recovered: 4
 Date: 11/01/2021, City: brampton, Cases: 1, Deaths: 2, Recovered: 11
 Date: 13/11/2020, City: toronto, Cases: 1, Deaths: 3, Recovered: 5
 Date: 15/11/2020, City: toronto, Cases: 1, Deaths: 2, Recovered: 2
+Date: 12/11/2020, City: Hamilton, Cases: 12, Deaths: 2, Recovered: 4
+Date: 29/01/2021, City: Toronto, Cases: 12, Deaths: 11, Recovered: 2
