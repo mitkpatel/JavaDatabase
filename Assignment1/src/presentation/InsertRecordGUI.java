@@ -120,7 +120,7 @@ public class InsertRecordGUI extends JFrame {
 					JOptionPane.showMessageDialog(null, "Please enter the date first.");
 				}
 			    else {
-				    	if (recordDate.matches("^([0-9]{1,2}/){2}[0-9]{2,4}$")) {
+				    	if (recordDate.matches("^([0-9]{1,2}/){2}[0-9]{4}$")) {
 				    		if(txtCity.getSelectedIndex() == -1) {
 				    			JOptionPane.showMessageDialog(null, "City name is required field, you have to select city from dropdown menu!");
 				    		}

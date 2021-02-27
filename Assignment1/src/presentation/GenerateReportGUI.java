@@ -37,9 +37,18 @@ public class GenerateReportGUI extends JFrame {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		
+		txtAreaGenerateReport.append("Here is the report of COVID-19 (Canada)"+ "\n\n");
+		int totalCases = 0, totalDeaths = 0, totalRecover = 0;
 		for(Object s: Userdata) {
+			String str = (String)s;
+			String[] splitArray = str.split(",");
 			txtAreaGenerateReport.append(s.toString() + "\n");
+			totalCases = totalCases + Integer.parseInt(splitArray[2].toString().replaceAll("[^0-9]", ""));
+			totalDeaths = totalDeaths + Integer.parseInt(splitArray[3].toString().replaceAll("[^0-9]", ""));
+			totalRecover = totalRecover + Integer.parseInt(splitArray[4].toString().replaceAll("[^0-9]", ""));
 		}
+		txtAreaGenerateReport.append("\n\n Total number of cases = " + totalCases);
+		txtAreaGenerateReport.append("\n Total number of deaths = " + totalDeaths);
+		txtAreaGenerateReport.append("\n Total number of recoverd people = " + totalRecover);
 	}
 }
