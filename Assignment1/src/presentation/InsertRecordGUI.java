@@ -12,21 +12,11 @@ import javax.swing.JButton;
 import java.awt.Color;
 import data.TextFileIO;
 
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.SwingConstants;
-import javax.swing.JRadioButton;
-import javax.swing.ButtonGroup;
-import javax.swing.JCheckBox;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.awt.event.ActionEvent;
-import javax.swing.JSpinner;
+import java.util.Date;
 
 public class InsertRecordGUI extends JFrame {
 	private JTextField txtDate;
@@ -103,43 +93,109 @@ public class InsertRecordGUI extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				String recordDate = txtDate.getText();
-				SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
-				
-				
-				String formattedDate = null;
-				try {
-					formattedDate = sdf.format(sdf.parse(recordDate));
-				} catch (ParseException e2) {
-					// TODO Auto-generated catch block
-					e2.printStackTrace();
-				}
 				
 				String cityName;
 				cityName = txtCity.getText();
-				int caseCount,deathCount,recoverCount;
-				caseCount = Integer.parseInt(txtCases.getText().trim());
-				deathCount =Integer.parseInt(txtDeaths.getText().trim());
-				recoverCount =Integer.parseInt(txtRecover.getText().trim());
+				int caseCount = Integer.parseInt(txtCases.getText());
+				int deathCount = Integer.parseInt(txtDeaths.getText());
+				int recoverCount = Integer.parseInt(txtRecover.getText());
+				String recordDate = txtDate.getText();
 				
-				if(recordDate.length() == 0)
-		            JOptionPane.showMessageDialog(null, "Enter the date first");
-				else if (formattedDate.equals(recordDate)) 
-					 JOptionPane.showMessageDialog(null, "enter valid Date");
-				else if(cityName.length() == 0)
-		            JOptionPane.showMessageDialog(null, "enter the date firsr");
-	
-				String recordEntry = "Date: " + recordDate + ", City: " + cityName + ", Cases: " + caseCount + ", Deaths: " + deathCount + ", Recovered:" + recoverCount;
-				try {
-					TextFileIO.writeRecord(recordEntry);
-					JOptionPane.showMessageDialog(null, "Data is saved to the file successfully!");
-				} catch (IOException e1) {
-					JOptionPane.showMessageDialog(null, "Error!!!" + e1.getMessage());
+//				SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
+//				
+//				String formattedDate = null;
+//				try {
+//					formattedDate = sdf.format(sdf.parse(recordDate));
+//				} catch (ParseException e2) {
+//					// TODO Auto-generated catch block
+//					e2.printStackTrace();
+//				}
+				
+				
+				SimpleDateFormat sdfrmt = new SimpleDateFormat("mm/dd/yyyy");
+			    sdfrmt.setLenient(false);
+			    if(recordDate != "") {
+					JOptionPane.showMessageDialog(null, "Enter the date first.");
 				}
-				
-				JOptionPane.showMessageDialog(null, "Date: " + recordDate + "\n" + "City: " + cityName + "\n" + "Number of cases: " + caseCount + "\n" + "Number of deaths: " + deathCount + "\n" + "Number of cases recovered: " + recoverCount);
-
+			    else {
+				    try
+				    {
+				        Date javaDate = sdfrmt.parse(recordDate); 
+				        
+				        if(cityName.length() == 0) {
+							 JOptionPane.showMessageDialog(null, "Enter valid city name."); 
+						 }
+						 else if (caseCount <= 0) {
+							 JOptionPane.showMessageDialog(null, "Cases should be greater than zero!"); 
+						 }
+						 else if (deathCount <= 0) {
+							 JOptionPane.showMessageDialog(null, "Death count should be greater than zero!"); 
+						 }
+						 else if (recoverCount <= 0) {
+							 JOptionPane.showMessageDialog(null, "Recover count should be greater than zero!"); 
+						 }
+						 else {
+							 String recordEntry = "Date: " + recordDate + ", City: " + cityName + ", Cases: " 
+									 + caseCount + ", Deaths: " + deathCount + ", Recovered: " + recoverCount;
+							
+								try {
+									TextFileIO.writeRecord(recordEntry);
+									JOptionPane.showMessageDialog(null, "Data is saved to the file successfully!");
+								} catch (IOException e1) {
+									JOptionPane.showMessageDialog(null, "Error!!!" + e1.getMessage());
+								}
+								
+								JOptionPane.showMessageDialog(null, "Date: " + recordDate + "\n" + "City: " + cityName + "\n" +
+								"Number of cases: " + caseCount + "\n" + "Number of deaths: " + deathCount + "\n" 
+										+ "Number of cases recovered: " + recoverCount);
+						 }
+				    }
+				    /* Date format is invalid */
+				    catch (ParseException eq)
+				    {
+				    	JOptionPane.showMessageDialog(null, "Invalid date! Enter valid Date.");
+				        System.out.println(recordDate+" is Invalid Date format");
+				        
+				    }
+			    }
+			    
+			    
+//				if(recordDate.length() == 0) {
+//					JOptionPane.showMessageDialog(null, "Enter the date first.");
+//				}
+//				else {
+//					 if (formattedDate.equals(recordDate)) {
+//						 JOptionPane.showMessageDialog(null, "Invalid date! Enter valid Date."); 
+//					 }
+//					 else {
+//						 if(cityName.length() == 0) {
+//							 JOptionPane.showMessageDialog(null, "Enter valid city name."); 
+//						 }
+//						 else if (caseCount <= 0) {
+//							 JOptionPane.showMessageDialog(null, "Cases should be greater than zero!"); 
+//						 }
+//						 else if (deathCount <= 0) {
+//							 JOptionPane.showMessageDialog(null, "Death count should be greater than zero!"); 
+//						 }
+//						 else if (recoverCount <= 0) {
+//							 JOptionPane.showMessageDialog(null, "Recover count should be greater than zero!"); 
+//						 }
+//						 else {
+//							 String recordEntry = "Date: " + recordDate + ", City: " + cityName + ", Cases: " 
+//									 + caseCount + ", Deaths: " + deathCount + ", Recovered:" + recoverCount;
+//								try {
+//									TextFileIO.writeRecord(recordEntry);
+//									JOptionPane.showMessageDialog(null, "Data is saved to the file successfully!");
+//								} catch (IOException e1) {
+//									JOptionPane.showMessageDialog(null, "Error!!!" + e1.getMessage());
+//								}
+//								
+//								JOptionPane.showMessageDialog(null, "Date: " + recordDate + "\n" + "City: " + cityName + "\n" +
+//								"Number of cases: " + caseCount + "\n" + "Number of deaths: " + deathCount + "\n" 
+//										+ "Number of cases recovered: " + recoverCount);
+//						 }
+//					 }
+//				}
 			}
 		});
 	}
