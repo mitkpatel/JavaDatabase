@@ -67,6 +67,78 @@ public class SearchRecordGUI extends JFrame {
 		// User can only see data, can not edit the text area
 		txtAreaFindRecord.setEditable(false);
 		
+		btnFind.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String searchDate = txtFindDate.getText();
+				String searchCity = txtFindCity.getText();
+				
+				Object[] Userdata = null;
+				
+				try {
+					Userdata = TextFileIO.readRecords();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				
+				if (rdbtnCity.isSelected()) {
+					txtAreaFindRecord.setText("");
+					txtFindDate.setText("");
+					if(!(Pattern.matches("[a-zA-Z]+",searchCity)) || (searchCity.isEmpty())) {
+						 JOptionPane.showMessageDialog(null, "Enter valid city name first."); 
+					 }
+					else {
+							int totalCases = 0, totalDeaths = 0, totalRecover = 0;
+							txtFindCity.setEditable(false);
+							for(Object s: Userdata) {
+								String str = (String)s;
+								String[] splitArray = str.split(",");
+								if(splitArray[1].contains(searchCity)) {
+									txtAreaFindRecord.append(str + "\n");
+									totalCases = totalCases + Integer.parseInt(splitArray[2].toString().replaceAll("[^0-9]", ""));
+									totalDeaths = totalDeaths + Integer.parseInt(splitArray[3].toString().replaceAll("[^0-9]", ""));
+									totalRecover = totalRecover + Integer.parseInt(splitArray[4].toString().replaceAll("[^0-9]", ""));
+								}
+							}
+							txtAreaFindRecord.append("\n\n Overall data for city " + searchCity);
+							txtAreaFindRecord.append("\n Total number of cases = " + totalCases);
+							txtAreaFindRecord.append("\n Total number of deaths = " + totalDeaths);
+							txtAreaFindRecord.append("\n Total number of recoverd people = " + totalRecover);
+					}
+						
+				} else if (rdbtnDate.isSelected()) {
+					txtAreaFindRecord.setText("");
+					txtFindCity.setText("");
+					if (searchDate.isEmpty()) {
+						 JOptionPane.showMessageDialog(null, "Enter date first!");
+					} 
+					else if (searchDate.matches("^([0-9]{1,2}/){2}[0-9]{2,4}$")) {
+						txtFindDate.setEditable(false);;
+						int totalCases = 0, totalDeaths = 0, totalRecover = 0;
+						for(Object s: Userdata) {
+							String str = (String)s;
+							String[] splitArray = str.split(",");
+							if(splitArray[0].contains(searchDate)) {
+								txtAreaFindRecord.append(str + "\n");
+								totalCases = totalCases + Integer.parseInt(splitArray[2].toString().replaceAll("[^0-9]", ""));
+								totalDeaths = totalDeaths + Integer.parseInt(splitArray[3].toString().replaceAll("[^0-9]", ""));
+								totalRecover = totalRecover + Integer.parseInt(splitArray[4].toString().replaceAll("[^0-9]", ""));
+								
+							} 
+						}
+						txtAreaFindRecord.append("\n\n Overall data for date " + searchDate);
+						txtAreaFindRecord.append("\n\n Total number of cases = " + totalCases);
+						txtAreaFindRecord.append("\n Total number of deaths = " + totalDeaths);
+						txtAreaFindRecord.append("\n Total number of recoverd people = " + totalRecover);
+						
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "Enter date in dd/mm/yyyy format!");
+					}
+				}
+				
+			}
+		});
+		
 		JButton btnReset = new JButton("Reset");
 		btnReset.setBounds(317, 110, 107, 23);
 		getContentPane().add(btnReset);
@@ -123,80 +195,6 @@ public class SearchRecordGUI extends JFrame {
 				txtFindCity.setText("");
 				txtFindDate.setEditable(true);
 				txtFindCity.setEditable(true);
-			}
-		});
-		
-		btnFind.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String searchDate = txtFindDate.getText();
-				String searchCity = txtFindCity.getText();
-				
-				Object[] Userdata = null;
-				
-				try {
-					Userdata = TextFileIO.readRecords();
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-				
-				if (rdbtnCity.isSelected()) {
-					txtAreaFindRecord.setText("");
-					txtFindDate.setText("");
-					if(!(Pattern.matches("[a-zA-Z]+",searchCity)) || (searchCity.isEmpty())) {
-						 JOptionPane.showMessageDialog(null, "Enter valid city name first."); 
-					 }
-					else {
-						if (searchCity.matches("^[a-zA-Z]*$")) {
-							int totalCases = 0, totalDeaths = 0, totalRecover = 0;
-							txtFindCity.setEditable(false);
-							for(Object s: Userdata) {
-								String str = (String)s;
-								String[] splitArray = str.split(",");
-								if(splitArray[1].contains(searchCity)) {
-									txtAreaFindRecord.append(str + "\n");
-									totalCases = totalCases + Integer.parseInt(splitArray[2].toString().replaceAll("[^0-9]", ""));
-									totalDeaths = totalDeaths + Integer.parseInt(splitArray[3].toString().replaceAll("[^0-9]", ""));
-									totalRecover = totalRecover + Integer.parseInt(splitArray[4].toString().replaceAll("[^0-9]", ""));
-								}
-							}
-							txtAreaFindRecord.append("\n\n Overall data for city " + searchCity);
-							txtAreaFindRecord.append("\n Total number of cases = " + totalCases);
-							txtAreaFindRecord.append("\n Total number of deaths = " + totalDeaths);
-							txtAreaFindRecord.append("\n Total number of recoverd people = " + totalRecover);
-						}
-					}
-						
-				} else if (rdbtnDate.isSelected()) {
-					txtAreaFindRecord.setText("");
-					txtFindCity.setText("");
-					if (searchDate.isEmpty()) {
-						 JOptionPane.showMessageDialog(null, "Enter date first!");
-					} 
-					else if (searchDate.matches("^([0-9]{1,2}/){2}[0-9]{2,4}$")) {
-						txtFindDate.setEditable(false);;
-						int totalCases = 0, totalDeaths = 0, totalRecover = 0;
-						for(Object s: Userdata) {
-							String str = (String)s;
-							String[] splitArray = str.split(",");
-							if(splitArray[0].contains(searchDate)) {
-								txtAreaFindRecord.append(str + "\n");
-								totalCases = totalCases + Integer.parseInt(splitArray[2].toString().replaceAll("[^0-9]", ""));
-								totalDeaths = totalDeaths + Integer.parseInt(splitArray[3].toString().replaceAll("[^0-9]", ""));
-								totalRecover = totalRecover + Integer.parseInt(splitArray[4].toString().replaceAll("[^0-9]", ""));
-								
-							} 
-						}
-						txtAreaFindRecord.append("\n\n Overall data for date " + searchDate);
-						txtAreaFindRecord.append("\n\n Total number of cases = " + totalCases);
-						txtAreaFindRecord.append("\n Total number of deaths = " + totalDeaths);
-						txtAreaFindRecord.append("\n Total number of recoverd people = " + totalRecover);
-						
-					}
-					else {
-						JOptionPane.showMessageDialog(null, "Enter date in dd/mm/yyyy format!");
-					}
-				}
-				
 			}
 		});
 	}
