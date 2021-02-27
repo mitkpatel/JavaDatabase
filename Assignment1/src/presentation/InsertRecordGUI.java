@@ -12,11 +12,10 @@ import javax.swing.JButton;
 import java.awt.Color;
 import data.TextFileIO;
 
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import java.io.IOException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class InsertRecordGUI extends JFrame {
 	private JTextField txtDate;
@@ -82,7 +81,12 @@ public class InsertRecordGUI extends JFrame {
 		getContentPane().add(txtRecover);
 		
 		JButton btnReset = new JButton("Reset");
-		btnReset.setBounds(103, 196, 90, 23);
+		btnReset.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		btnReset.setBounds(32, 196, 90, 23);
 		getContentPane().add(btnReset);
 		
 		JButton btnSubmit = new JButton("Submit");
@@ -94,109 +98,54 @@ public class InsertRecordGUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				String cityName;
-				cityName = txtCity.getText();
-				int caseCount = Integer.parseInt(txtCases.getText());
-				int deathCount = Integer.parseInt(txtDeaths.getText());
-				int recoverCount = Integer.parseInt(txtRecover.getText());
+				String cityName = txtCity.getText();;
+				String regex = "[a-zA-Z]+";
+				String caseCount = txtCases.getText();
+				String deathCount = txtDeaths.getText();
+				String recoverCount = txtRecover.getText();
 				String recordDate = txtDate.getText();
-				
-//				SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
-//				
-//				String formattedDate = null;
-//				try {
-//					formattedDate = sdf.format(sdf.parse(recordDate));
-//				} catch (ParseException e2) {
-//					// TODO Auto-generated catch block
-//					e2.printStackTrace();
-//				}
-				
 				
 				SimpleDateFormat sdfrmt = new SimpleDateFormat("mm/dd/yyyy");
 			    sdfrmt.setLenient(false);
-			    if(recordDate != "") {
-					JOptionPane.showMessageDialog(null, "Enter the date first.");
+			    if(recordDate.isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Please enter the date first.");
 				}
 			    else {
-				    try
-				    {
-				        Date javaDate = sdfrmt.parse(recordDate); 
-				        
-				        if(cityName.length() == 0) {
-							 JOptionPane.showMessageDialog(null, "Enter valid city name."); 
-						 }
-						 else if (caseCount <= 0) {
-							 JOptionPane.showMessageDialog(null, "Cases should be greater than zero!"); 
-						 }
-						 else if (deathCount <= 0) {
-							 JOptionPane.showMessageDialog(null, "Death count should be greater than zero!"); 
-						 }
-						 else if (recoverCount <= 0) {
-							 JOptionPane.showMessageDialog(null, "Recover count should be greater than zero!"); 
-						 }
-						 else {
-							 String recordEntry = "Date: " + recordDate + ", City: " + cityName + ", Cases: " 
-									 + caseCount + ", Deaths: " + deathCount + ", Recovered: " + recoverCount;
-							
-								try {
-									TextFileIO.writeRecord(recordEntry);
-									JOptionPane.showMessageDialog(null, "Data is saved to the file successfully!");
-								} catch (IOException e1) {
-									JOptionPane.showMessageDialog(null, "Error!!!" + e1.getMessage());
-								}
+				    	if (recordDate.matches("^([0-9]{1,2}/){2}[0-9]{2,4}$")) {
+				    		if(!(Pattern.matches("[a-zA-Z]+",cityName)) || (cityName.isEmpty())) {
+								 JOptionPane.showMessageDialog(null, "Enter valid city name first."); 
+							 }
+							 else if (!(caseCount.matches("[0-9]+") && caseCount.length() >= 1)) {
+								 JOptionPane.showMessageDialog(null, "Number of cases is required field and postive numeric only!");
+							 }
+							 else if (!(deathCount.matches("[0-9]+") && deathCount.length() >= 1)) {
+								 JOptionPane.showMessageDialog(null, "Death count is required field and postive numeric only!"); 
+							 }
+							 else if (!(recoverCount.matches("[0-9]+") && recoverCount.length() >= 1)) {
+								 JOptionPane.showMessageDialog(null, "Recover count is required field and postive numeric only!"); 
+							 }
+							 else {
+								 String recordEntry = "Date: " + recordDate + ", City: " + cityName + ", Cases: " 
+										 + caseCount + ", Deaths: " + deathCount + ", Recovered: " + recoverCount;
 								
-								JOptionPane.showMessageDialog(null, "Date: " + recordDate + "\n" + "City: " + cityName + "\n" +
-								"Number of cases: " + caseCount + "\n" + "Number of deaths: " + deathCount + "\n" 
-										+ "Number of cases recovered: " + recoverCount);
-						 }
-				    }
-				    /* Date format is invalid */
-				    catch (ParseException eq)
-				    {
-				    	JOptionPane.showMessageDialog(null, "Invalid date! Enter valid Date.");
-				        System.out.println(recordDate+" is Invalid Date format");
-				        
+									try {
+										TextFileIO.writeRecord(recordEntry);
+										JOptionPane.showMessageDialog(null, "Data is saved to the file successfully!");
+									} catch (IOException e1) {
+										JOptionPane.showMessageDialog(null, "Error!!!" + e1.getMessage());
+									}
+									
+									JOptionPane.showMessageDialog(null, "Date: " + recordDate + "\n" + "City: " + cityName + "\n" +
+									"Number of cases: " + caseCount + "\n" + "Number of deaths: " + deathCount + "\n" 
+											+ "Number of cases recovered: " + recoverCount);
+							 }
+				    		
+				    	}
+				    	else {
+				    		JOptionPane.showMessageDialog(null, "Please enter date in dd/mm/yyyy format!");
+				    	}
 				    }
 			    }
-			    
-			    
-//				if(recordDate.length() == 0) {
-//					JOptionPane.showMessageDialog(null, "Enter the date first.");
-//				}
-//				else {
-//					 if (formattedDate.equals(recordDate)) {
-//						 JOptionPane.showMessageDialog(null, "Invalid date! Enter valid Date."); 
-//					 }
-//					 else {
-//						 if(cityName.length() == 0) {
-//							 JOptionPane.showMessageDialog(null, "Enter valid city name."); 
-//						 }
-//						 else if (caseCount <= 0) {
-//							 JOptionPane.showMessageDialog(null, "Cases should be greater than zero!"); 
-//						 }
-//						 else if (deathCount <= 0) {
-//							 JOptionPane.showMessageDialog(null, "Death count should be greater than zero!"); 
-//						 }
-//						 else if (recoverCount <= 0) {
-//							 JOptionPane.showMessageDialog(null, "Recover count should be greater than zero!"); 
-//						 }
-//						 else {
-//							 String recordEntry = "Date: " + recordDate + ", City: " + cityName + ", Cases: " 
-//									 + caseCount + ", Deaths: " + deathCount + ", Recovered:" + recoverCount;
-//								try {
-//									TextFileIO.writeRecord(recordEntry);
-//									JOptionPane.showMessageDialog(null, "Data is saved to the file successfully!");
-//								} catch (IOException e1) {
-//									JOptionPane.showMessageDialog(null, "Error!!!" + e1.getMessage());
-//								}
-//								
-//								JOptionPane.showMessageDialog(null, "Date: " + recordDate + "\n" + "City: " + cityName + "\n" +
-//								"Number of cases: " + caseCount + "\n" + "Number of deaths: " + deathCount + "\n" 
-//										+ "Number of cases recovered: " + recoverCount);
-//						 }
-//					 }
-//				}
-			}
 		});
 	}
 }
