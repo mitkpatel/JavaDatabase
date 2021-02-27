@@ -27,6 +27,7 @@ public class InsertRecordGUI extends JFrame {
 	private JTextField txtRecover;
 	
 	public InsertRecordGUI() {
+		setTitle("Insert Data");
 		this.setBounds(500, 200, 500, 300);
 		getContentPane().setLayout(null);
 		

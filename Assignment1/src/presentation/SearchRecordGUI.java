@@ -25,6 +25,7 @@ public class SearchRecordGUI extends JFrame {
 	private JTextField txtFindDate;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	public SearchRecordGUI() {
+		setTitle("Search Record");
 		getContentPane().setLayout(null);
 		this.setBounds(100,100, 500, 382);
 		
@@ -36,7 +37,6 @@ public class SearchRecordGUI extends JFrame {
 		getContentPane().add(lbSearchHeading);
 		
 		JRadioButton rdbtnCity = new JRadioButton("Search record by city name");
-		rdbtnCity.setSelected(true);
 		buttonGroup.add(rdbtnCity);
 		rdbtnCity.setBounds(20, 52, 220, 23);
 		getContentPane().add(rdbtnCity);
@@ -57,7 +57,7 @@ public class SearchRecordGUI extends JFrame {
 		getContentPane().add(txtFindDate);
 		
 		JButton btnFind = new JButton("Find");
-		btnFind.setBounds(121, 111, 89, 23);
+		btnFind.setBounds(30, 111, 89, 23);
 		getContentPane().add(btnFind);
 		
 		JTextArea txtAreaFindRecord = new JTextArea();
@@ -67,11 +67,56 @@ public class SearchRecordGUI extends JFrame {
 		// User can only see data, can not edit the text area
 		txtAreaFindRecord.setEditable(false);
 		
-		JButton btnSearchAgain = new JButton("Search Again");
-		btnSearchAgain.setBounds(236, 111, 112, 23);
-		getContentPane().add(btnSearchAgain);
+		JButton btnReset = new JButton("Reset");
+		btnReset.setBounds(317, 110, 107, 23);
+		getContentPane().add(btnReset);
 		
-		btnSearchAgain.addActionListener(new ActionListener() {
+		JButton btnBoth = new JButton("Search by both");
+		btnBoth.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String searchDate = txtFindDate.getText();
+				String searchCity = txtFindCity.getText();
+				
+				Object[] Userdata = null;
+				
+				try {
+					Userdata = TextFileIO.readRecords();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				
+				if(!(Pattern.matches("[a-zA-Z]+",searchCity)) || (searchCity.isEmpty())) {
+					 JOptionPane.showMessageDialog(null, "Enter valid city name first."); 
+				 }
+				else if((searchDate.matches("^([0-9]{1,2}/){2}[0-9]{2,4}$"))){
+						int totalCases = 0, totalDeaths = 0, totalRecover = 0;
+						txtFindCity.setEditable(false);
+						txtFindDate.setEditable(false);
+						for(Object s: Userdata) {
+							String str = (String)s;
+							String[] splitArray = str.split(",");
+							if(splitArray[1].contains(searchCity) && splitArray[0].contains(searchDate)) {
+								txtAreaFindRecord.append(str + "\n");
+								totalCases = totalCases + Integer.parseInt(splitArray[2].toString().replaceAll("[^0-9]", ""));
+								totalDeaths = totalDeaths + Integer.parseInt(splitArray[3].toString().replaceAll("[^0-9]", ""));
+								totalRecover = totalRecover + Integer.parseInt(splitArray[4].toString().replaceAll("[^0-9]", ""));
+							}
+						}
+						txtAreaFindRecord.append("\n\n Overall data for city " + searchCity + " for date " + searchDate );
+						txtAreaFindRecord.append("\n Total number of cases = " + totalCases);
+						txtAreaFindRecord.append("\n Total number of deaths = " + totalDeaths);
+						txtAreaFindRecord.append("\n Total number of recoverd people = " + totalRecover);
+					}
+				else {
+					JOptionPane.showMessageDialog(null, "Enter date in dd/mm/yyyy format!");
+				}
+				
+			}
+		});
+		btnBoth.setBounds(155, 111, 131, 23);
+		getContentPane().add(btnBoth);
+		
+		btnReset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				txtAreaFindRecord.setText("");
 				txtFindDate.setText("");
@@ -142,7 +187,7 @@ public class SearchRecordGUI extends JFrame {
 							} 
 						}
 						txtAreaFindRecord.append("\n\n Overall data for date " + searchDate);
-						txtAreaFindRecord.append("\n\n Total number of cases = " + searchCity);
+						txtAreaFindRecord.append("\n\n Total number of cases = " + totalCases);
 						txtAreaFindRecord.append("\n Total number of deaths = " + totalDeaths);
 						txtAreaFindRecord.append("\n Total number of recoverd people = " + totalRecover);
 						

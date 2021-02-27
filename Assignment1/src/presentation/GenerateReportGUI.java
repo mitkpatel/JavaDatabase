@@ -13,6 +13,7 @@ import javax.swing.JTextArea;
 
 public class GenerateReportGUI extends JFrame {
 	public GenerateReportGUI() {
+		setTitle("Report");
 		this.setBounds(500, 200, 558, 400);
 		getContentPane().setLayout(null);
 		
