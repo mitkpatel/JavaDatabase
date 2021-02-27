@@ -115,8 +115,6 @@ public class InsertRecordGUI extends JFrame {
 				String recoverCount = txtRecover.getText();
 				String recordDate = txtDate.getText();
 				
-				SimpleDateFormat sdfrmt = new SimpleDateFormat("mm/dd/yyyy");
-			    sdfrmt.setLenient(false);
 			    if(recordDate.isEmpty()) {
 					JOptionPane.showMessageDialog(null, "Please enter the date first.");
 				}

@@ -9,8 +9,7 @@ import java.util.Scanner;
 
 public class TextFileIO {
 	private static File myFile = new File("covid_Report.txt");
-	private static File readFile = new File("filterRecords.txt");
-
+	
 	public static void writeRecord(String recordEntry) throws IOException {
 		try (PrintWriter writer = new PrintWriter(new FileWriter(myFile, true))) {
 			writer.println(recordEntry);
